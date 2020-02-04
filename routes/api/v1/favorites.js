@@ -1,10 +1,15 @@
+const environment = process.env.NODE_ENV || 'development';
+const configuration = require('../../../knexfile')[environment];
+const database = require('knex')(configuration);
+require('dotenv').config('/.env')
+
+
 const express = require('express');
 const router = express.Router();
-const MusixMatchSerivce = require('../../../app/services/musix_match_service')
-
+const MusixMatchService = require('../../../app/services/musix_match_service')
 
 async function getFavorite(track, artist) {
-  let favorite = await MusixMatchSerivce.getSong(track,artist)
+  let favorite = await MusixMatchService.getSong(track,artist)
   return favorite
 }
 
@@ -14,15 +19,18 @@ router.post('/', function(req, res) {
     let artist = req.query.artistName
     getFavorite(track, artist)
       .then((favorite) => {
-        data('favorites').insert(favorite, favorite.title)
-        .then((title) => {
-          res.status(201).json({message: `${title} has been added to favorites`})
+        console.log(favorite)
+        database('favorites').insert(favorite , ['id', 'title', 'artistName', 'genre', 'rating'])
+        .then((favorite) => {
+          res.status(201).send(favorite)
         })
         .catch((error) => {
+          console.log(error.message)
           res.status(400).json({error_message: error.message})
         })
       })
       .catch((error) => {
+        console.log(error.message)
         res.status(400).json({error_message: error.message })
       })
   } else {

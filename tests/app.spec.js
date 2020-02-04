@@ -14,3 +14,19 @@ describe('Test the root path', () => {
     expect(res.statusCode).toBe(200);
   });
 });
+
+describe('Test favorites endpoint', () => {
+  beforeEach(async () => {
+  await database.raw('truncate table favorites cascade');
+  });
+  afterEach(() => {
+    database.raw('truncate table favorites cascade')
+  });
+  test('User can post a new favorite', async () => {
+    const res = await request(app)
+      .post('/api/v1/favorites')
+      .query({title: '5AM', artistName: 'Amber Run' });
+
+      expect(res.status).toBe(201)
+  })
+})
