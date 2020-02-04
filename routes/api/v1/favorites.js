@@ -28,7 +28,7 @@ router.post('/', function(req, res) {
         })
       })
       .catch((error) => {
-        res.status(400).json({error_message: error.message })
+        res.status(503).json({error_message: 'MusixMatch Error' })
       })
   } else {
     res.status(400).json({message: 'Title and artist required'})
