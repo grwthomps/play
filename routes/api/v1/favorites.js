@@ -19,19 +19,22 @@ router.post('/', function(req, res) {
     let artist = req.body.artistName
     getFavorite(track, artist)
       .then((favorite) => {
+        if (isNaN(favorite.rating)) {
+          return res.status(503).send({error_message: 'Rating is not a number'})
+        }
         database('favorites').insert(favorite , ['id', 'title', 'artistName', 'genre', 'rating'])
         .then((favorite) => {
-          res.status(201).send(favorite[0])
+          return res.status(201).send(favorite[0])
         })
         .catch((error) => {
-          res.status(400).json({error_message: error.message})
+          return res.status(400).json({error_message: error.message})
         })
       })
       .catch((error) => {
-        res.status(400).json({error_message: error.message })
+        return res.status(400).json({error_message: error.message })
       })
   } else {
-    res.status(400).json({message: 'Title and artist required'})
+    return res.status(400).json({message: 'Title and artist required'})
   }
 });
 
