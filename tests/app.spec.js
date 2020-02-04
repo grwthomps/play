@@ -27,6 +27,11 @@ describe('Test favorites endpoint', () => {
       .post('/api/v1/favorites')
       .query({title: '5AM', artistName: 'Amber Run' });
 
+      expect(res.body).toHaveProperty('id')
+      expect(res.body).toHaveProperty('title')
+      expect(res.body).toHaveProperty('artistName')
+      expect(res.body).toHaveProperty('genre')
+      expect(res.body).toHaveProperty('rating')
       expect(res.status).toBe(201)
   })
 })
