@@ -34,4 +34,12 @@ describe('Test favorites endpoint', () => {
       expect(res.body).toHaveProperty('rating')
       expect(res.status).toBe(201)
   })
+  test('User cannot post a new favorite without title and artist name', async () => {
+    const res = await request(app)
+      .post('/api/v1/favorites')
+      .query({title: '5AM' });
+
+      expect(res.body.message).toBe('Title and artist required')
+      expect(res.status).toBe(400)
+  })
 })
