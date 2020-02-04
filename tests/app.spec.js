@@ -1,7 +1,7 @@
 var shell = require('shelljs');
 var request = require("supertest");
 var app = require('../app');
-
+// var fetch = require('jest-fetch-mock')
 const environment = process.env.NODE_ENV || 'test';
 const configuration = require('../knexfile')[environment];
 const database = require('knex')(configuration);
@@ -18,14 +18,25 @@ describe('Test the root path', () => {
 describe('Test favorites endpoint', () => {
   beforeEach(async () => {
     await database.raw('truncate table favorites cascade');
+    // fetch.resetMocks();
   });
   afterEach(() => {
     database.raw('truncate table favorites cascade')
   });
   test('User can post a new favorite', async () => {
+    // await fetch.mockResponseOnce(
+    //  JSON.stringify({
+    //    message: { body: { track_list: [ { track: {
+    //                                                artist_name: "Amber Run",
+    //                                                track_name: "5AM",
+    //                                                track_rating: 88,
+    //                                                primary_genres: {
+    //                                                  music_genre_list: [{
+    //                                                    music_genre: "Alternative" }]} } } ] } } }));
+
     const res = await request(app)
       .post('/api/v1/favorites')
-      .query({title: '5AM', artistName: 'Amber Run' });
+      .send({title: '5AM', artistName: 'Amber Run' });
 
       expect(res.body).toHaveProperty('id')
       expect(res.body).toHaveProperty('title')
@@ -37,7 +48,7 @@ describe('Test favorites endpoint', () => {
   test('User cannot post a new favorite without title and artist name', async () => {
     const res = await request(app)
       .post('/api/v1/favorites')
-      .query({title: '5AM' });
+      .send({title: '5AM' });
 
       expect(res.body.message).toBe('Title and artist required')
       expect(res.status).toBe(400)
