@@ -11,8 +11,7 @@ module.exports = {
     },
     seeds: {
       directory: './db/seeds'
-    },
-    useNullAsDefault: true
+    }
   },
 
   test: {
@@ -23,8 +22,7 @@ module.exports = {
     },
     seeds: {
       directory: './db/seeds'
-    },
-    useNullAsDefault: true
+    }
   },
 
   production: {
@@ -35,8 +33,7 @@ module.exports = {
     },
     seeds: {
       directory: './db/seeds'
-    },
-    useNullAsDefault: true
+    }
   }
 
 };
