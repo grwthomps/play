@@ -22,7 +22,7 @@ router.post('/', function(req, res) {
         console.log(favorite)
         database('favorites').insert(favorite , ['id', 'title', 'artistName', 'genre', 'rating'])
         .then((favorite) => {
-          res.status(201).send(favorite)
+          res.status(201).send(favorite[0])
         })
         .catch((error) => {
           console.log(error.message)
