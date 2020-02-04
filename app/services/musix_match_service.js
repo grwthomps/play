@@ -2,7 +2,7 @@ const fetch = require('node-fetch')
 require('dotenv').config('/.env')
 const Favorite = ('../models/favorite')
 
-class MusixMatchSerivce {
+class MusixMatchService {
 
   static getSong(track, artist) {
     let key = process.env.MUSIXMATCH_API_KEY

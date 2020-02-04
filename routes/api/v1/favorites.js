@@ -1,8 +1,10 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
+const MusixMatchSerivce = require('../../../app/services/musix_match_service')
+
 
 async function getFavorite(track, artist) {
-  let favorite = = await MusixMatchSerivce.getSong(track,artist)
+  let favorite = await MusixMatchSerivce.getSong(track,artist)
   return favorite
 }
 
@@ -26,7 +28,6 @@ router.post('/', function(req, res) {
   } else {
     res.status(400).json({message: 'Title and artist required'})
   }
-
 });
 
 module.exports = router;

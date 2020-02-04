@@ -18,7 +18,7 @@ module.exports = {
     client: 'pg',
     connection: 'postgres://localhost/play_test',
     migrations: {
-      tableName: 'knex_migrations'
+      directory: './db/migrations'
     },
     seeds: {
       directory: './db/seeds'
