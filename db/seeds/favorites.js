@@ -6,7 +6,7 @@ exports.seed = function(knex) {
       return Promise.all([
         knex('favorites').insert([
           {title: 'Alive', artistName: 'Dabin', rating: 75, genre: 'edm'},
-          {title: 'Time', artistName: 'Kidswaste', rating: 90},
+          {title: 'Time', artistName: 'Kidswaste', rating: 90, genre: 'alternative'},
           {title: 'Breathe', artistName: 'Telepopmusik', rating: 80, genre: 'down tempo'}
         ])
         .then(() => console.log('Seeding Complete'))

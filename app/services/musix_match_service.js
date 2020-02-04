@@ -9,7 +9,6 @@ class MusixMatchService {
     let form_artist = artist.replace(' ', '_').toLowerCase()
     let form_track = track.replace(' ', '_').toLowerCase()
     let url = `https://api.musixmatch.com/ws/1.1/matcher.track.get?apikey=${key}&q_track=${form_track}&q_artist=${form_artist}`
-    console.log(url)
     return fetch(url)
     .then(response => response.json())
     .then(result => new Favorite(result))
@@ -17,7 +16,6 @@ class MusixMatchService {
       return favorite
     })
     .catch((error) => {
-      console.log(error.message)
       return { error_message: error.message}
     })
   };

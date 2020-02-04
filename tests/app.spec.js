@@ -17,7 +17,7 @@ describe('Test the root path', () => {
 
 describe('Test favorites endpoint', () => {
   beforeEach(async () => {
-  await database.raw('truncate table favorites cascade');
+    await database.raw('truncate table favorites cascade');
   });
   afterEach(() => {
     database.raw('truncate table favorites cascade')

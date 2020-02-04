@@ -19,18 +19,15 @@ router.post('/', function(req, res) {
     let artist = req.query.artistName
     getFavorite(track, artist)
       .then((favorite) => {
-        console.log(favorite)
         database('favorites').insert(favorite , ['id', 'title', 'artistName', 'genre', 'rating'])
         .then((favorite) => {
           res.status(201).send(favorite[0])
         })
         .catch((error) => {
-          console.log(error.message)
           res.status(400).json({error_message: error.message})
         })
       })
       .catch((error) => {
-        console.log(error.message)
         res.status(400).json({error_message: error.message })
       })
   } else {
