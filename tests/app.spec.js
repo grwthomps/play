@@ -25,7 +25,7 @@ describe('Test favorites endpoint', () => {
   test('User can post a new favorite', async () => {
     const res = await request(app)
       .post('/api/v1/favorites')
-      .query({title: '5AM', artistName: 'Amber Run' });
+      .send({title: '5AM', artistName: 'Amber Run' });
 
       expect(res.body).toHaveProperty('id')
       expect(res.body).toHaveProperty('title')
@@ -37,7 +37,7 @@ describe('Test favorites endpoint', () => {
   test('User cannot post a new favorite without title and artist name', async () => {
     const res = await request(app)
       .post('/api/v1/favorites')
-      .query({title: '5AM' });
+      .send({title: '5AM' });
 
       expect(res.body.message).toBe('Title and artist required')
       expect(res.status).toBe(400)

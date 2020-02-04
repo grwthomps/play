@@ -14,9 +14,9 @@ async function getFavorite(track, artist) {
 }
 
 router.post('/', function(req, res) {
-  if (req.query.title && req.query.artistName ){
-    let track = req.query.title
-    let artist = req.query.artistName
+  if (req.body.title && req.body.artistName ){
+    let track = req.body.title
+    let artist = req.body.artistName
     getFavorite(track, artist)
       .then((favorite) => {
         database('favorites').insert(favorite , ['id', 'title', 'artistName', 'genre', 'rating'])
