@@ -5,5 +5,4 @@ module.exports = {
     "setupFiles": [
       "./setupJest.js"
     ]
-    testEnvironment: "node"
 }
