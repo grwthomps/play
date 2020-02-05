@@ -92,3 +92,9 @@ Unsuccessful deletion: Response 404 `Not Found`
 
 ![database](https://i.imgur.com/Mtat975.png)
 
+### Core Contributors
+
+Graham Thompson @grwthomps
+
+Mary Lang @mcat56
+
