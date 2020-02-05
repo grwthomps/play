@@ -19,10 +19,20 @@ router.post('/', function(req, res) {
     let artist = req.body.artistName
     getFavorite(track, artist)
       .then((favorite) => {
-        if (isNaN(favorite.rating)) {
+        if (isNaN(favorite.message.body.track.track_rating)) {
           return res.status(503).send({error_message: 'Rating is not a number'})
         }
-        database('favorites').insert(favorite , ['id', 'title', 'artistName', 'genre', 'rating'])
+        if (favorite.message.body.track.primary_genres.music_genre_list.length === 0) {
+          var genre = 'Unknown'
+        } else {
+          var genre = favorite.message.body.track.primary_genres.music_genre_list[0].music_genre.music_genre_name
+        }
+        var info = {
+                title: favorite.message.body.track.track_name,
+                artistName: favorite.message.body.track.artist_name,
+                genre: genre,
+                rating: favorite.message.body.track.track_rating  }
+        database('favorites').insert(info , ['id', 'title', 'artistName', 'genre', 'rating'])
         .then((favorite) => {
           return res.status(201).send(favorite[0])
         })
