@@ -95,4 +95,21 @@ describe('Test favorites endpoint', () => {
 
       expect(res.status).toBe(204)
   });
+  test('User can get all favorites', async () => {
+    const res = await request(app)
+      .get('/api/v1/favorites')
+
+      expect(res.status).toBe(200)
+      expect(res.body).toBeInstanceOf(Array)
+  });
+  test('User can get a single favorite', async () => {
+    const res = await request(app)
+      .get('/api/v1/favorites/5920')
+
+      expect(res.status).toBe(200)
+      expect(res.body).toHaveProperty('id')
+      expect(res.body).toHaveProperty('title')
+      expect(res.body).toHaveProperty('genre')
+      expect(res.body).toHaveProperty('artistName')
+  });
 });

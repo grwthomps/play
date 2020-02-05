@@ -48,14 +48,33 @@ router.post('/', function(req, res) {
   }
 });
 
-
 router.delete('/:id', function(req,res) {
   database('favorites').where('id', req.params.id).del()
   .then(() => {
     res.status(204).send();
   })
   .catch((error) => {
-    res.status(404).json({error_message: 'Not Found'})
+    return res.status(404).json({error_message: 'Not Found'})
+  })
+})
+
+router.get('/', function(req,res) {
+  database('favorites').select()
+  .then((favorites) => {
+    res.status(200).send(favorites)
+  })
+  .catch((error) => {
+    return res.status(500).json({error_message: error.message})
+  })
+})
+
+router.get('/:id', function(req,res) {
+  database('favorites').where('id', req.params.id).select().first()
+  .then((favorite) => {
+    res.status(200).send(favorite)
+  })
+  .catch((error) => {
+    return res.status(404).json({error_message: 'Not Found'})
   })
 })
 
