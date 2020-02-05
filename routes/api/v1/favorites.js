@@ -19,20 +19,46 @@ router.post('/', function(req, res) {
     let artist = req.body.artistName
     getFavorite(track, artist)
       .then((favorite) => {
-        database('favorites').insert(favorite , ['id', 'title', 'artistName', 'genre', 'rating'])
+        if (isNaN(favorite.message.body.track.track_rating)) {
+          return res.status(503).send({error_message: 'Rating is not a number'})
+        }
+        if (favorite.message.body.track.primary_genres.music_genre_list.length === 0) {
+          var genre = 'Unknown'
+        } else {
+          var genre = favorite.message.body.track.primary_genres.music_genre_list[0].music_genre.music_genre_name
+        }
+        var info = {
+                title: favorite.message.body.track.track_name,
+                artistName: favorite.message.body.track.artist_name,
+                genre: genre,
+                rating: favorite.message.body.track.track_rating  }
+        database('favorites').insert(info , ['id', 'title', 'artistName', 'genre', 'rating'])
         .then((favorite) => {
-          res.status(201).send(favorite[0])
+          return res.status(201).send(favorite[0])
         })
         .catch((error) => {
-          res.status(400).json({error_message: error.message})
+          return res.status(400).json({error_message: error.message})
         })
       })
       .catch((error) => {
-        res.status(503).json({error_message: 'MusixMatch Error' })
+        return res.status(400).json({error_message: error.message })
       })
   } else {
-    res.status(400).json({message: 'Title and artist required'})
+    return res.status(400).json({message: 'Title and artist required'})
   }
 });
+
+
+router.delete('/:id', function(req,res) {
+  database('favorites').where('id', req.params.id).del()
+  .then(() => {
+    res.status(204).send();
+  })
+  .catch((error) => {
+    res.status(404).json({error_message: 'Not Found'})
+  })
+})
+
+
 
 module.exports = router;

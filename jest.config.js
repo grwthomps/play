@@ -1,3 +1,8 @@
 module.exports = {
-    testEnvironment: "node"
+
+    testEnvironment: "node",
+    "automock": false,
+    "setupFiles": [
+      "./setupJest.js"
+    ]
 }
