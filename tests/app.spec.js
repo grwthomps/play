@@ -10,7 +10,8 @@ describe('Test the root path', () => {
     const res = await request(app)
       .get("/");
 
-    expect(res.statusCode).toBe(200);
+    expect(res.text).toContain('Express')
+    expect(res.statusCode).toBe(200)
   });
 });
 
@@ -36,6 +37,28 @@ describe('Test favorites endpoint', () => {
                                      music_genre_list: [{
                                        music_genre: {
                                          music_genre_name:  "Alternative" }}]}}}}}))
+
+    const res = await request(app)
+      .post('/api/v1/favorites')
+      .send({title: '5AM', artistName: 'Amber Run' });
+
+      expect(fetch.mock.calls.length).toEqual(1);
+      expect(res.body).toHaveProperty('id')
+      expect(res.body).toHaveProperty('title')
+      expect(res.body).toHaveProperty('artistName')
+      expect(res.body).toHaveProperty('genre')
+      expect(res.body).toHaveProperty('rating')
+      expect(res.status).toBe(201)
+  });
+  test('User can post a new favorite with unknown genre', async () => {
+    await fetch.mockResponseOnce(
+     JSON.stringify({
+       message: { body:  { track: {
+                                   artist_name: "Dabin",
+                                   track_name: "Alive",
+                                   track_rating: 88,
+                                   primary_genres: {
+                                     music_genre_list: []}}}}}))
 
     const res = await request(app)
       .post('/api/v1/favorites')
@@ -95,6 +118,13 @@ describe('Test favorites endpoint', () => {
 
       expect(res.status).toBe(204)
   });
+  test('User cannot delete a favorite if favorite not found', async () => {
+    const res = await request(app)
+      .delete('/api/v1/favorites/bl')
+
+      expect(res.status).toBe(404)
+      expect(res.body.error_message).toBe('Not Found')
+  });
   test('User can get all favorites', async () => {
     const res = await request(app)
       .get('/api/v1/favorites')
@@ -111,5 +141,12 @@ describe('Test favorites endpoint', () => {
       expect(res.body).toHaveProperty('title')
       expect(res.body).toHaveProperty('genre')
       expect(res.body).toHaveProperty('artistName')
+  });
+  test('404 error returned if favorite not found', async () => {
+    const res = await request(app)
+      .get('/api/v1/favorites/ar')
+
+      expect(res.status).toBe(404)
+      expect(res.body.error_message).toBe('Not Found')
   });
 });

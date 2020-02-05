@@ -41,7 +41,7 @@ router.post('/', function(req, res) {
         })
       })
       .catch((error) => {
-        return res.status(400).json({error_message: error.message })
+        return res.status(503).json({error_message: error.message })
       })
   } else {
     return res.status(400).json({message: 'Title and artist required'})
