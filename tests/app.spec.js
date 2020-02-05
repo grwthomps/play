@@ -109,7 +109,7 @@ describe('Test favorites endpoint', () => {
   });
 });
 
-describe('Favorites Endpoint', () => {
+describe('User can get all favorites', () => {
   beforeEach(async () => {
     await database.raw('truncate table favorites cascade');
     let favorites = [
@@ -136,7 +136,7 @@ describe('Favorites Endpoint', () => {
     database.raw('truncate table favorites cascade')
   });
 
-  it('should list all favorites', async () => {
+  test('should list all favorites', async () => {
     const res = await request(app)
       .get('/api/v1/favorites')
 
