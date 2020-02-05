@@ -107,8 +107,15 @@ describe('Test favorites endpoint', () => {
 
       expect(res.status).toBe(204)
   });
+  test('User can delete a favorite', async () => {
+    const res = await request(app)
+      .delete('/api/v1/favorites/er')
+
+      expect(res.status).toBe(404)
+      expect(res.body.error_message).toBe('Not Found')
+  });
 });
-describe('User can get all favorites', () => {
+describe('User can get favorites', () => {
   beforeEach(async () => {
     await database.raw('truncate table favorites cascade');
     let favorites = [
@@ -151,5 +158,28 @@ describe('User can get all favorites', () => {
 
     expect(res.body[0].title).toEqual('Shake It Off')
     expect(res.body[1].title).toEqual('Poetic Justice')
+  });
+  test('should list one favorite', async () => {
+    const res = await request(app)
+      .get('/api/v1/favorites/34')
+
+    expect(res.statusCode).toEqual(200)
+
+    expect(res.body).toHaveProperty('id')
+    expect(res.body).toHaveProperty('title')
+    expect(res.body).toHaveProperty('artistName')
+    expect(res.body).toHaveProperty('rating')
+    expect(res.body).toHaveProperty('genre')
+
+    expect(res.body.title).toEqual('Shake It Off')
+  });
+  test('cannot list one favorite with invalid id', async () => {
+    const res = await request(app)
+      .get('/api/v1/favorites/rg')
+
+    expect(res.statusCode).toEqual(404)
+
+    expect(res.body.error_message).toBe('Not Found')
+
   });
 })
