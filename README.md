@@ -90,5 +90,5 @@ Unsuccessful deletion: Response 404 `Not Found`
 
 ### Database Schema
 
-![database]('https://i.imgur.com/Mtat975.png')
+![database](https://i.imgur.com/Mtat975.png)
 
