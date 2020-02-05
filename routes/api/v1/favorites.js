@@ -48,4 +48,15 @@ router.post('/', function(req, res) {
   }
 });
 
+
+router.delete('/:id', function(req,res) {
+  database('favorites').where('id', req.params.id).del()
+  .then(() => {
+    res.status(204).send();
+  })
+  .catch((error) => {
+    res.status(404).json({error_message: 'Not Found'})
+  })
+})
+
 module.exports = router;
