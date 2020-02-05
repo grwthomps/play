@@ -1,6 +1,7 @@
 var shell = require('shelljs');
 var request = require("supertest");
 var app = require('../app');
+
 const environment = process.env.NODE_ENV || 'test';
 const configuration = require('../knexfile')[environment];
 const database = require('knex')(configuration);
@@ -17,15 +18,18 @@ describe('Test the root path', () => {
 describe('Test favorites endpoint', () => {
   beforeEach(async () => {
     await database.raw('truncate table favorites cascade');
+
     let favorite = {id: 5920, title: 'Alive', artistName: 'Dabin', rating: 75, genre: 'edm'}
 
     await database('favorites').insert(favorite)
     fetch.resetMocks();
+
   });
   afterEach(() => {
     database.raw('truncate table favorites cascade')
   });
   test('User can post a new favorite', async () => {
+
     await fetch.mockResponseOnce(
      JSON.stringify({
        message: { body:  { track: {
@@ -37,17 +41,20 @@ describe('Test favorites endpoint', () => {
                                        music_genre: {
                                          music_genre_name:  "Alternative" }}]}}}}}))
 
+
     const res = await request(app)
       .post('/api/v1/favorites')
       .send({title: '5AM', artistName: 'Amber Run' });
 
       expect(fetch.mock.calls.length).toEqual(1);
+
       expect(res.body).toHaveProperty('id')
       expect(res.body).toHaveProperty('title')
       expect(res.body).toHaveProperty('artistName')
       expect(res.body).toHaveProperty('genre')
       expect(res.body).toHaveProperty('rating')
       expect(res.status).toBe(201)
+
   });
   test('User cannot post a new favorite without title and artist name', async () => {
     await fetch.mockResponseOnce(
@@ -62,12 +69,17 @@ describe('Test favorites endpoint', () => {
                                          music_genre_name:  "Alternative" }}]}}}}}))
 
 
+
+  })
+  test('User cannot post a new favorite without title and artist name', async () => {
+
     const res = await request(app)
       .post('/api/v1/favorites')
       .send({title: '5AM' });
 
       expect(res.body.message).toBe('Title and artist required')
       expect(res.status).toBe(400)
+
   });
   test('User cannot post a new favorite when rating is not a number', async () => {
     await fetch.mockResponseOnce(
@@ -96,3 +108,5 @@ describe('Test favorites endpoint', () => {
       expect(res.status).toBe(204)
   });
 });
+
+
