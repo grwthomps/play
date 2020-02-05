@@ -11,6 +11,7 @@ describe('Test the root path', () => {
     const res = await request(app)
       .get("/");
 
+    expect(res.body).toEqual({message: 'Welcome to Express'})
     expect(res.statusCode).toBe(200);
   });
 });
