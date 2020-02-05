@@ -52,7 +52,16 @@ router.get('/', function(req, res) {
   database('favorites')
     .select()
     .then(favorites => {
-      res.status(200).json(new Favorite().formatFavorites(favorites))
+      let favs = favorites.map(favorite => {
+        return {
+          id: favorite.id,
+          title: favorite.title,
+          artistName: favorite.artistName,
+          genre: favorite.genre,
+          rating: favorite.rating
+        }
+      })
+      res.status(200).json(favs)
     })
     .catch(error => console.log(error))
 })
