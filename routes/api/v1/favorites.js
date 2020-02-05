@@ -48,6 +48,26 @@ router.post('/', function(req, res) {
   }
 });
 
+router.get('/:id', function(req,res) {
+  database('favorites').where('id', req.params.id)
+  .select()
+  .first()
+  .then((favorite) => {
+    let fav = {
+        id: favorite.id,
+        title: favorite.title,
+        artistName: favorite.artistName,
+        genre: favorite.genre,
+        rating: favorite.rating
+      }
+    res.status(200).json(fav)
+  })
+  .catch(error => {
+    res.status(404).json({error_message: 'Not Found'})
+  })
+})
+
+
 router.get('/', function(req, res) {
   database('favorites')
     .select()
@@ -63,7 +83,9 @@ router.get('/', function(req, res) {
       })
       res.status(200).json(favs)
     })
-    .catch(error => console.log(error))
+    .catch(error => {
+      res.status(404).json({error_message: 'Not Found'})
+    })
 })
 
 
