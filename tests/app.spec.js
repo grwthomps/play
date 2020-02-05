@@ -54,4 +54,24 @@ describe('Test favorites endpoint', () => {
       expect(res.body.message).toBe('Title and artist required')
       expect(res.status).toBe(400)
   });
+  test('User cannot post a new favorite when rating is not a number', async () => {
+    await fetch.mockResponseOnce(
+     JSON.stringify({
+       message: { body:  { track: {
+                                   artist_name: "Amber Run",
+                                   track_name: "5AM",
+                                   track_rating: "Uh oh",
+                                   primary_genres: {
+                                     music_genre_list: [{
+                                       music_genre: {
+                                         music_genre_name:  "Alternative" }}]}}}}}))
+
+    const res = await request(app)
+      .post('/api/v1/favorites')
+      .send({title: '5AM', artistName: 'Amber Run' });
+
+      expect(fetch.mock.calls.length).toEqual(1);
+      expect(res.status).toBe(503)
+      expect(res.body.error_message).toBe('Rating is not a number')
+  });
 });
