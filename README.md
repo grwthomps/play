@@ -87,3 +87,8 @@ DELETE request to '/api/v1/favorites/:id'
 Response Status: 204
 Unsuccessful deletion: Response 404 `Not Found`
 
+
+### Database Schema
+
+![database]('https://i.imgur.com/Mtat975.png')
+
