@@ -16,27 +16,16 @@
     "jest": "^25.1.0",
     "jest-fetch-mock": "^3.0.1",
     "knex": "^0.20.8",
-
-    "morgan": "~1.9.1",
-    "pg": "^7.18.1"
+    "morgan": "^1.9.1",
     "node-fetch": "^2.6.0",
+    "pg": "^7.18.1",
     "shelljs": "^0.8.3"
   },
-  "devDependencies": {
-    "babel-jest": "^25.1.0",
-    "cross-env": "^7.0.0",
-    "jest": "^25.1.0",
-    "supertest": "^4.0.2"
-  },
-  "jest": {
-    "testEnvironment": "node",
-    "coveragePathIgnorePatterns": [
-      "/node_modules/"
-    ] 
-  },
+  "description": "Song playlist creator",
+  "author": "",
+  "license": "ISC",
   "devDependencies": {
     "babel-jest": "^25.1.0",
     "supertest": "^4.0.2"
-
   }
 }
