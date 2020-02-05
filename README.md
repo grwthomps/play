@@ -20,7 +20,7 @@
   
 ### Endpoints
 
-Post a New Favorite: 
+#### Post a New Favorite: 
 POST request to '/api/v1/favorites'
 with body: 
 ``` 
@@ -41,7 +41,7 @@ with status 201
 
 
 
-Get All Favorites:
+#### Get All Favorites:
 GET request to '/api/v1/favorites'
 
 Response Body:
@@ -65,7 +65,7 @@ Response Body:
 ```
 
 
-Get a Single Favorite:
+#### Get a Single Favorite:
 GET request to '/api/v1/favorites/:id'
 
 Response Body: 
@@ -81,7 +81,8 @@ Response Body:
 Unsuccessful response status 404 `Not Found`
 
 
-Delete a Favorite: 
+
+#### Delete a Favorite: 
 DELETE request to '/api/v1/favorites/:id'
 
 Response Status: 204
