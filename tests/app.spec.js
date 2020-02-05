@@ -17,7 +17,7 @@ describe('Test the root path', () => {
 describe('Test favorites endpoint', () => {
   beforeEach(async () => {
     await database.raw('truncate table favorites cascade');
-    let favorite = {id: 1, title: 'Alive', artistName: 'Dabin', rating: 75, genre: 'edm'}
+    let favorite = {id: 5920, title: 'Alive', artistName: 'Dabin', rating: 75, genre: 'edm'}
 
     await database('favorites').insert(favorite)
     fetch.resetMocks();
@@ -91,7 +91,7 @@ describe('Test favorites endpoint', () => {
   });
   test('User can delete a favorite', async () => {
     const res = await request(app)
-      .delete('/api/v1/favorites/1')
+      .delete('/api/v1/favorites/5920')
 
       expect(res.status).toBe(204)
   });
