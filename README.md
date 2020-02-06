@@ -2,7 +2,7 @@
 
 ### Introduction
 
-Play is a song playlist creator that allows users to add songs as their favorites, see their favorites, and delete songs from their favorites. It also pulls song metadata automatically from the Musixmatch API.
+Play is a song playlist creator that allows users to add songs as their favorites, see their favorites, and delete songs from their favorites. It also pulls song metadata automatically from the [Musixmatch API](https://developer.musixmatch.com/).
 
 ### Tech Stack
 
@@ -131,5 +131,5 @@ Status: 204
 
 ### Core Contributors
 
-[Graham Thompson](https://github.com/grwthomps)
-[Mary Lang](https://github.com/mcat56)
+- [Graham Thompson](https://github.com/grwthomps)
+- [Mary Lang](https://github.com/mcat56)
