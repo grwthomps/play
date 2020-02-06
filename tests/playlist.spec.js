@@ -31,4 +31,21 @@ describe('Test playlists endpoint', () => {
       expect(res.status).toBe(201)
   });
 
+  test('User cannot post a new playlist without title', async () => {
+    const res = await request(app)
+      .post('/api/v1/playlists')
+      .send({title: ''});
+
+      expect(res.status).toBe(400)
+  });
+
+
+  test('User cannot post a new duplicate playlist', async () => {
+    const res = await request(app)
+      .post('/api/v1/playlists')
+      .send({title: 'Fun Time Jamz'});
+
+      expect(res.status).toBe(400)
+      expect(res.body.error).toBe('Title must be unique.')
+  });
 })
