@@ -16,6 +16,7 @@ app.set('port', process.env.PORT || 3000);
 
 const indexRouter = require('./routes/index');
 const favoritesRouter = require('./routes/api/v1/favorites');
+const playlistsRouter = require('./routes/api/v1/playlists');
 
 app.locals.title = 'Play Play';
 
@@ -28,10 +29,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/api/v1/favorites', favoritesRouter);
-
-
-app.listen(app.get('port'), () => {
-  console.log(`${app.locals.title} is running on ${app.get('port')}.`);
-});
+app.use('/api/v1/playlists', playlistsRouter);
 
 module.exports = app;
