@@ -110,4 +110,12 @@ describe('Test put playlists endpoint', () => {
       expect(res.body.title).toBe('Boogie Boogie')
       expect(res.status).toBe(200)
   });
+  test('User cannot update a playlist without a valid id', async () => {
+    const res = await request(app)
+      .put('/api/v1/playlists/lp')
+      .send({title: 'Boogie Boogie'})
+
+      expect(res.status).toBe(404)
+      expect(res.body.error_message).toBe('Not Found')
+  });
 })
