@@ -47,6 +47,7 @@ describe('Test post playlists endpoint', () => {
 
       expect(res.status).toBe(400)
       expect(res.body.error).toBe('Title must be unique.')
+      expect(res.body.error_message).toBe('Title must be unique.')
   });
 })
 
