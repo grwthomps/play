@@ -125,7 +125,6 @@ describe('Test put playlists endpoint', () => {
 
       expect(res.status).toBe(404)
       expect(res.body.error_message).toBe('Please enter valid attributes')
-
   });
   test('User cannot update a playlist created_at', async () => {
     const res = await request(app)
@@ -134,6 +133,13 @@ describe('Test put playlists endpoint', () => {
 
       expect(res.status).toBe(404)
       expect(res.body.error_message).toBe('Please enter valid attributes')
+  });
+  test('User cannot update a playlist for an arbitrary attribute', async () => {
+    const res = await request(app)
+      .put('/api/v1/playlists/lp')
+      .send({mood: 'happy'})
 
+      expect(res.status).toBe(404)
+      expect(res.body.error_message).toBe('Please enter valid attributes')
   });
 })
