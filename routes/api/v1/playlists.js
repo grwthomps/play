@@ -30,4 +30,18 @@ router.get('/', function(req, res) {
     .catch(error => res.status(503).json({error: error.message}))
 })
 
+router.delete('/:id', function(req,res) {
+  database('playlists').where('id', req.params.id).del()
+  .then((result) => {
+    if (result === 1) {
+      res.status(204).send();
+    } else {
+      res.status(404).json({error_message: 'Not Found'})
+    }
+  })
+  .catch((error) => {
+    res.status(404).json({error_message: 'Not Found'})
+  })
+})
+
 module.exports = router;
