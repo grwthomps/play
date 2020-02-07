@@ -27,4 +27,13 @@ router.post('/', function(req, res) {
   }
 })
 
+router.get('/', function(req, res) {
+  database('playlists')
+    .select(['id', 'title', `created_at as createdAt`, `updated_at as updatedAt`])
+    .then((playlists) => {
+      res.status(200).json(playlists)
+    })
+    .catch(error => res.status(503).json({error: error.message}))
+})
+
 module.exports = router;
