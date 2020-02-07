@@ -14,12 +14,35 @@ router.post('/', function(req, res) {
         return res.status(201).json(playlist[0])
       })
       .catch((error) => {
-        return res.status(400).json({error: 'Title must be unique.'})
+        return res.status(400).json({error_message: 'Title must be unique.'})
       })
   } else {
-     return res.status(400).json({error: "Title required."})
+     return res.status(400).json({error_message: "Title required."})
   }
 })
+
+router.put('/:id', function(req,res) {
+  attributes = Object.keys(req.body)
+  invalid = ['id', 'created_at']
+  valid = ['title', 'updated_at']
+  attrs = attributes.filter(attr => !invalid.includes(attr) && valid.includes(attr))
+  if (attrs.length === 0) {
+    return res.status(404).json({error_message: 'Please enter valid attributes'})
+  }
+  attrs.forEach((attribute) => {
+    database('playlists').where('id', req.params.id)
+    .update(attribute, req.body[attribute])
+    .returning(['id', 'title', 'updated_at as updatedAt', 'created_at as createdAt'])
+    .then((playlist) => {
+      res.status(200).json(playlist[0])
+    })
+    .catch((error) => {
+      res.status(404).json({error_message: 'Not Found'})
+    })
+  })
+})
+
+
 
 router.get('/', function(req, res) {
   database('playlists')

@@ -46,7 +46,7 @@ describe('Test post playlists endpoint', () => {
       .send({title: 'Fun Time Jamz'});
 
       expect(res.status).toBe(400)
-      expect(res.body.error).toBe('Title must be unique.')
+      expect(res.body.error_message).toBe('Title must be unique.')
   });
 })
 
@@ -98,5 +98,63 @@ describe('Test get playlists endpoint', () => {
 
       expect(res.status).toBe(404)
       expect(res.body.error_message).toBe('Not Found')
+  });
+})
+describe('Test put playlists endpoint', () => {
+  beforeEach(async () => {
+    await database.raw('truncate table playlists cascade');
+
+    let playlist = {id: 238, title: 'Boogey Jamz'}
+
+    await database('playlists').insert(playlist)
+  });
+
+  afterEach(() => {
+    database.raw('truncate table playlists cascade')
+  });
+
+  test('User can update a playlist', async () => {
+    const res = await request(app)
+      .put('/api/v1/playlists/238')
+      .send({title: 'Boogie Boogie'})
+
+      expect(res.body).toHaveProperty('id')
+      expect(res.body).toHaveProperty('title')
+      expect(res.body).toHaveProperty('createdAt')
+      expect(res.body).toHaveProperty('updatedAt')
+      expect(res.body.title).toBe('Boogie Boogie')
+      expect(res.status).toBe(200)
+  });
+  test('User cannot update a playlist without a valid id', async () => {
+    const res = await request(app)
+      .put('/api/v1/playlists/lp')
+      .send({title: 'Boogie Boogie'})
+
+      expect(res.status).toBe(404)
+      expect(res.body.error_message).toBe('Not Found')
+  });
+  test('User cannot update a playlist id', async () => {
+    const res = await request(app)
+      .put('/api/v1/playlists/lp')
+      .send({id: 'muahaha'})
+
+      expect(res.status).toBe(404)
+      expect(res.body.error_message).toBe('Please enter valid attributes')
+  });
+  test('User cannot update a playlist created_at', async () => {
+    const res = await request(app)
+      .put('/api/v1/playlists/lp')
+      .send({created_at: 'hehehe'})
+
+      expect(res.status).toBe(404)
+      expect(res.body.error_message).toBe('Please enter valid attributes')
+  });
+  test('User cannot update a playlist for an arbitrary attribute', async () => {
+    const res = await request(app)
+      .put('/api/v1/playlists/lp')
+      .send({mood: 'happy'})
+
+      expect(res.status).toBe(404)
+      expect(res.body.error_message).toBe('Please enter valid attributes')
   });
 })
