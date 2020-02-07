@@ -46,7 +46,6 @@ describe('Test post playlists endpoint', () => {
       .send({title: 'Fun Time Jamz'});
 
       expect(res.status).toBe(400)
-      expect(res.body.error).toBe('Title must be unique.')
       expect(res.body.error_message).toBe('Title must be unique.')
   });
 })
@@ -83,6 +82,32 @@ describe('Test get playlists endpoint', () => {
       expect(res.body[0].title).toBe('Boogey Jamz')
       expect(res.body[2].title).toBe('Winter Time Jamz')
 
+      expect(res.status).toBe(200)
+  });
+})
+describe('Test put playlists endpoint', () => {
+  beforeEach(async () => {
+    await database.raw('truncate table playlists cascade');
+
+    let playlist = {id: 238, title: 'Boogey Jamz'}
+
+    await database('playlists').insert(playlist)
+  });
+
+  afterEach(() => {
+    database.raw('truncate table playlists cascade')
+  });
+
+  test('User can update a playlist', async () => {
+    const res = await request(app)
+      .put('/api/v1/playlists/238')
+      .send({title: 'Boogie Boogie'})
+
+      expect(res.body).toHaveProperty('id')
+      expect(res.body).toHaveProperty('title')
+      expect(res.body).toHaveProperty('createdAt')
+      expect(res.body).toHaveProperty('updatedAt')
+      expect(res.body.title).toBe('Boogie Boogie')
       expect(res.status).toBe(200)
   });
 })
