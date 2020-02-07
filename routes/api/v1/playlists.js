@@ -21,21 +21,21 @@ router.post('/', function(req, res) {
   }
 })
 
-route.put('/:id', function(req,res) {
-  attributes = Object.keys(body)
-  database('playlists').where('id', req.params.id).first()
+router.put('/:id', function(req,res) {
+  attributes = Object.keys(req.body)
+  attributes.forEach((attribute) => {
+    database('playlists').where('id', req.params.id)
+    .update(attribute, req.body[attribute])
+    .returning(['id', 'title', 'updated_at as updatedAt', 'created_at as createdAt'])
     .then((playlist) => {
-      attributes.forEach((attribute) => {
-        playlist.update({attribute: req.body[attribute]})
-      })
-      res.status(200).json(playlist)
+      res.status(200).json(playlist[0])
     })
     .catch((error) => {
       res.status(404).json({error_message: 'Not Found'})
     })
-
   })
 })
+
 
 
 router.get('/', function(req, res) {
