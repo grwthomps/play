@@ -23,7 +23,13 @@ router.post('/', function(req, res) {
 
 router.put('/:id', function(req,res) {
   attributes = Object.keys(req.body)
-  attributes.forEach((attribute) => {
+  invalid = ['id', 'created_at']
+  valid = ['title', 'updated_at']
+  attrs = attributes.filter(attr => !invalid.includes(attr) && valid.includes(attr))
+  if (attrs.length === 0) {
+    return res.status(404).json({error_message: 'Please enter valid attributes'})
+  }
+  attrs.forEach((attribute) => {
     database('playlists').where('id', req.params.id)
     .update(attribute, req.body[attribute])
     .returning(['id', 'title', 'updated_at as updatedAt', 'created_at as createdAt'])
