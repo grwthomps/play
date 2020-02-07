@@ -15,9 +15,11 @@ router.post('/', function(req, res) {
       })
       .catch((error) => {
         return res.status(400).json({error: 'Title must be unique.'})
+        return res.status(400).json({error_message: 'Title must be unique.'})
       })
   } else {
      return res.status(400).json({error: "Title required."})
+     return res.status(400).json({error_message: "Title required."})
   }
 })
 
