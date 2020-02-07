@@ -84,4 +84,11 @@ describe('Test get playlists endpoint', () => {
 
       expect(res.status).toBe(200)
   });
+
+  test('User can delete a playlist', async () => {
+    const res = await request(app)
+      .delete('/api/v1/playlists/238')
+
+      expect(res.status).toBe(204)
+  });
 })
