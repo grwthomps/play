@@ -122,8 +122,7 @@ Status: 204
 ```
 
 ### Database Schema
-
-![database](https://i.imgur.com/Mtat975.png)
+![database](https://i.imgur.com/4Ajmf8K.png)
 
 ### Project Board
 
