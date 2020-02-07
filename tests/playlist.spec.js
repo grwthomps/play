@@ -56,7 +56,7 @@ describe('Test get playlists endpoint', () => {
 
     let playlist1 = {id: 238, title: 'Boogey Jamz'}
     let playlist2 = {id: 9850, title: 'Summer Time Jamz'}
-    let playlist3 = {id: 0897, title: 'Winter Time Jamz'}
+    let playlist3 = {id: 5897, title: 'Winter Time Jamz'}
 
     await database('playlists').insert(playlist1)
     await database('playlists').insert(playlist2)
@@ -82,6 +82,6 @@ describe('Test get playlists endpoint', () => {
       expect(res.body[0].title).toBe('Boogey Jamz')
       expect(res.body[2].title).toBe('Winter Time Jamz')
 
-      expect(res.status).toBe(201)
+      expect(res.status).toBe(200)
   });
 })
