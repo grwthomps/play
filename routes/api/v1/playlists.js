@@ -14,14 +14,29 @@ router.post('/', function(req, res) {
         return res.status(201).json(playlist[0])
       })
       .catch((error) => {
-        return res.status(400).json({error: 'Title must be unique.'})
         return res.status(400).json({error_message: 'Title must be unique.'})
       })
   } else {
-     return res.status(400).json({error: "Title required."})
      return res.status(400).json({error_message: "Title required."})
   }
 })
+
+route.put('/:id', function(req,res) {
+  attributes = Object.keys(body)
+  database('playlists').where('id', req.params.id).first()
+    .then((playlist) => {
+      attributes.forEach((attribute) => {
+        playlist.update({attribute: req.body[attribute]})
+      })
+      res.status(200).json(playlist)
+    })
+    .catch((error) => {
+      res.status(404).json({error_message: 'Not Found'})
+    })
+
+  })
+})
+
 
 router.get('/', function(req, res) {
   database('playlists')
