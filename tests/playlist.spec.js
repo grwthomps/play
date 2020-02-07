@@ -84,4 +84,19 @@ describe('Test get playlists endpoint', () => {
 
       expect(res.status).toBe(200)
   });
+
+  test('User can delete a playlist', async () => {
+    const res = await request(app)
+      .delete('/api/v1/playlists/238')
+
+      expect(res.status).toBe(204)
+  });
+
+  test('User receives error when a playlist does not exist', async () => {
+    const res = await request(app)
+      .delete('/api/v1/playlists/3972')
+
+      expect(res.status).toBe(404)
+      expect(res.body.error_message).toBe('Not Found')
+  });
 })
