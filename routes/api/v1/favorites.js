@@ -13,6 +13,20 @@ async function getFavorite(track, artist) {
   return favorite
 }
 
+function createFavoriteObject(favorite) {
+  if (favorite.message.body.track.primary_genres.music_genre_list.length === 0) {
+    var genre = 'Unknown'
+  } else {
+    var genre = favorite.message.body.track.primary_genres.music_genre_list[0].music_genre.music_genre_name
+  }
+  var info = {
+          title: favorite.message.body.track.track_name,
+          artistName: favorite.message.body.track.artist_name,
+          genre: genre,
+          rating: favorite.message.body.track.track_rating  }
+  return info
+}
+
 router.post('/', function(req, res) {
   if (req.body.title && req.body.artistName ){
     let track = req.body.title
@@ -22,16 +36,7 @@ router.post('/', function(req, res) {
         if (isNaN(favorite.message.body.track.track_rating)) {
           return res.status(503).send({error_message: 'Rating is not a number'})
         }
-        if (favorite.message.body.track.primary_genres.music_genre_list.length === 0) {
-          var genre = 'Unknown'
-        } else {
-          var genre = favorite.message.body.track.primary_genres.music_genre_list[0].music_genre.music_genre_name
-        }
-        var info = {
-                title: favorite.message.body.track.track_name,
-                artistName: favorite.message.body.track.artist_name,
-                genre: genre,
-                rating: favorite.message.body.track.track_rating  }
+        info = createFavoriteObject(favorite)
         database('favorites').insert(info , ['id', 'title', 'artistName', 'genre', 'rating'])
         .then((favorite) => {
           return res.status(201).send(favorite[0])
@@ -53,13 +58,7 @@ router.get('/:id', function(req,res) {
   .select()
   .first()
   .then((favorite) => {
-    let fav = {
-        id: favorite.id,
-        title: favorite.title,
-        artistName: favorite.artistName,
-        genre: favorite.genre,
-        rating: favorite.rating
-      }
+    let fav = getFormattedFavorite(favorite)
     res.status(200).json(fav)
   })
   .catch(error => {
@@ -67,19 +66,23 @@ router.get('/:id', function(req,res) {
   })
 })
 
+function getFormattedFavorite(favorite) {
+  let fav = {
+      id: favorite.id,
+      title: favorite.title,
+      artistName: favorite.artistName,
+      genre: favorite.genre,
+      rating: favorite.rating
+    }
+  return fav
+}
 
 router.get('/', function(req, res) {
   database('favorites')
     .select()
     .then(favorites => {
       let favs = favorites.map(favorite => {
-        return {
-          id: favorite.id,
-          title: favorite.title,
-          artistName: favorite.artistName,
-          genre: favorite.genre,
-          rating: favorite.rating
-        }
+        return getFormattedFavorite(favorite)
       })
       res.status(200).json(favs)
     })
