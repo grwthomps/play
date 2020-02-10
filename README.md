@@ -44,7 +44,9 @@ Testing is performed with Jest. The included `package.json` file has a script fo
 
 ### Endpoints
 
-#### Create a favorite:
+#### Favorites
+
+##### Create a favorite:
 
 Sample Request:
 ```
@@ -54,7 +56,6 @@ Request Body:
 
 { title: "We Will Rock You", artistName: "Queen" }
 ```
-
 Sample Response:
 ```
 {
@@ -65,14 +66,24 @@ Sample Response:
   "rating": 88
 }
 ```
+Invalid Responses:
+```
+Status: 503
 
-#### List All Favorites:
+{error_message: "Rating is not a number"}
+```
+```
+Status: 400
+
+{error_message: "Title and artist required"}
+```
+
+##### List All Favorites:
 
 Request:
 ```
 GET '/api/v1/favorites'
 ```
-
 Sample Response:
 ```
 [
@@ -93,13 +104,12 @@ Sample Response:
 ]
 ```
 
-#### Return a Single Favorite:
+##### Return a Single Favorite:
 
 Request:
 ```
 GET '/api/v1/favorites/:id'
 ```
-
 Sample Response:
 ```
   {
@@ -110,15 +120,131 @@ Sample Response:
     "rating": 88
   }
 ```
+Invalid Response:
+```
+Status: 404
 
-#### Delete a Favorite:
+{error_message: "Not Found"}
+```
 
+##### Delete a Favorite:
+
+Request:
 ```
 DELETE '/api/v1/favorites/:id'
 ```
 Response:
 ```
 Status: 204
+```
+Invalid Response:
+```
+Status: 404
+
+{error_message: "Not Found"}
+```
+
+#### Playlists
+
+##### Create a Playlist:
+
+Sample Request:
+```
+POST /api/v1/playlists
+
+Request Body:
+
+{ title: "Workout Jamz" }
+```
+Sample Response:
+```
+{
+  "id": 1,
+  "title": "Workout Jamz",
+  "createdAt": 2019-11-26T16:03:43+00:00,
+  "updatedAt": 2019-11-26T16:03:43+00:00,
+}
+```
+Invalid Responses:
+```
+Status: 400
+
+{error_message: "Title required."}
+
+OR
+
+{error_message: "Title must be unique."}
+```
+
+##### List All Playlists:
+
+Request:
+```
+GET /api/v1/playlists
+```
+Sample Response:
+```
+[
+  {
+    "id": 1,
+    "title": "Workout Jamz",
+    "createdAt": 2019-11-26T16:03:43+00:00,
+    "updatedAt": 2019-11-26T16:03:43+00:00
+  },
+  {
+    "id": 2,
+    "title": "Summer Time Jamz",
+    "createdAt": 2019-11-26T16:03:43+00:00,
+    "updatedAt": 2019-11-26T16:03:43+00:00
+  },
+]
+```
+
+##### Edit a Playlist:
+
+Sample Request:
+```
+PUT /api/v1/playlists/:id
+
+Request Body:
+
+{ title: "Party Jamz" }
+```
+Sample Response:
+```
+{
+  "id": 2,
+  "title": "Party Jamz",
+  "createdAt": 2019-11-26T16:03:43+00:00,
+  "updatedAt": 2019-11-26T16:03:43+00:00
+}
+```
+Invalid Responses:
+```
+Status: 404
+
+{error_message: "Please enter valid attributes"}
+
+OR
+
+{error_message: "Not Found"}
+```
+
+##### Delete a Playlist:
+
+Request:
+```
+DELETE '/api/v1/playlists/:id'
+```
+Response:
+```
+Status: 204
+```
+Invalid Response:
+```
+Status: 404
+
+{error_message: "Not Found"}
 ```
 
 ### Database Schema
