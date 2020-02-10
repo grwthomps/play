@@ -46,7 +46,7 @@ router.put('/:id', function(req,res) {
 
 router.get('/', function(req, res) {
   database('playlists')
-    .select(['id', 'title', `created_at as createdAt`, `updated_at as updatedAt`])
+    .select(['id', 'title', `created_at as createdAt`, `updated_at as updatedAt`]).orderBy('id')
     .then((playlists) => {
       res.status(200).json(playlists)
     })

@@ -52,7 +52,7 @@ router.get('/:id', function(req,res) {
 
 router.get('/', function(req, res) {
   database('favorites')
-    .select()
+    .select().orderBy('id')
     .then(favorites => {
       let favs = favorites.map(favorite => {
         return getFormattedFavorite(favorite)

@@ -55,7 +55,7 @@ describe('Test get playlists endpoint', () => {
     await database.raw('truncate table playlists cascade');
 
     let playlist1 = {id: 238, title: 'Boogey Jamz'}
-    let playlist2 = {id: 9850, title: 'Summer Time Jamz'}
+    let playlist2 = {id: 4950, title: 'Summer Time Jamz'}
     let playlist3 = {id: 5897, title: 'Winter Time Jamz'}
 
     await database('playlists').insert(playlist1)
