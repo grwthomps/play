@@ -247,9 +247,8 @@ Status: 404
 {error_message: "Not Found"}
 ```
 
-## Database Schema
-
-![database](https://i.imgur.com/Mtat975.png)
+### Database Schema
+![database](https://i.imgur.com/4Ajmf8K.png)
 
 ## Project Board
 
