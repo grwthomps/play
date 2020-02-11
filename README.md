@@ -293,6 +293,60 @@ Status: 400
 error_message: 'Unable to add favorite to playlist
 ```
 
+#### Return single playlist favorites
+Request: 
+```
+GET /api/v1/playlists/:id/favorites
+```
+Sample Response: 
+```
+{
+  "id": 1,
+  "title": "Cleaning House",
+  "songCount": 2,
+  "songAvgRating": 27.5,
+  "favorites" : [
+                  {
+                    "id": 1,
+                    "title": "We Will Rock You",
+                    "artistName": "Queen"
+                    "genre": "Rock",
+                    "rating": 25
+                  },
+                  {
+                    "id": 4,
+                    "title": "Back In Black",
+                    "artistName": "AC/DC"
+                    "genre": "Rock",
+                    "rating": 30
+                  }
+               ],
+    "createdAt": 2019-11-26T16:03:43+00:00,
+    "updatedAt": 2019-11-26T16:03:43+00:00
+}
+```
+Invalid Response: 
+```
+Status: 404 
+
+error_message: 'Not Found'
+```
+
+#### Delete playlist favorite 
+Request: 
+```
+DELETE /api/v1/playlists/:id/favorites/:id
+```
+Response: 
+```
+Status: 204
+```
+Invalid Response: 
+```
+Status: 404
+
+error_message: 'Not Found'
+```
 
 
 ### Database Schema
