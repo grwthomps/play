@@ -290,7 +290,7 @@ OR
 
 Status: 400
 
-error_message: 'Unable to add favorite to playlist
+error_message: 'Unable to add favorite to playlist'
 ```
 
 #### Return single playlist favorites
