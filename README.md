@@ -269,6 +269,32 @@ Status: 404
 {error_message: "Not Found"}
 ```
 
+### Playlist Favorites
+
+#### Create a playlist favorite
+Request: 
+```
+POST /api/v1/playlists/:id/favorites/:id
+```
+Response: 
+```
+Status: 201
+```
+Invalid Response: 
+```
+Status: 404 
+
+error_message: 'Not Found'
+
+OR
+
+Status: 400
+
+error_message: 'Unable to add favorite to playlist
+```
+
+
+
 ### Database Schema
 ![database](https://i.imgur.com/7IIqF5R.png)
 
