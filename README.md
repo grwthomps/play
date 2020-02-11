@@ -248,7 +248,7 @@ Status: 404
 ```
 
 ### Database Schema
-![database](https://i.imgur.com/4Ajmf8K.png)
+![database](https://i.imgur.com/7IIqF5R.png)
 
 ## Project Board
 
