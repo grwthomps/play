@@ -187,17 +187,39 @@ Sample Response:
 [
   {
     "id": 1,
-    "title": "Workout Jamz",
+    "title": "Cleaning House",
+    "songCount": 2,
+    "songAvgRating": 27.5,
+    "favorites": [
+                    {
+                      "id": 1,
+                      "title": "We Will Rock You",
+                      "artistName": "Queen"
+                      "genre": "Rock",
+                      "rating": 25
+                    },
+                    {
+                      "id": 4,
+                      "title": "Back In Black",
+                      "artistName": "AC/DC"
+                      "genre": "Rock",
+                      "rating": 30
+                    }
+                  ],
     "createdAt": 2019-11-26T16:03:43+00:00,
     "updatedAt": 2019-11-26T16:03:43+00:00
   },
   {
-    "id": 2,
-    "title": "Summer Time Jamz",
+      "id": 2,
+    "title": "Running Mix",
+    "songCount": 0,
+    "songAvgRating": 0,
+    "favorites": []
     "createdAt": 2019-11-26T16:03:43+00:00,
     "updatedAt": 2019-11-26T16:03:43+00:00
   },
 ]
+
 ```
 
 #### Edit a Playlist:
