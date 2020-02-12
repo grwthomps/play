@@ -42,6 +42,24 @@ router.put('/:id', function(req,res) {
   })
 })
 
+router.get('/:id', function(req, res) {
+  database('playlists').where('id', req.params.id).select().first()
+    .then((playlist) => {
+      if (playlist) {
+        async function getPlaylist() {
+          let playlist_with_favorites = await getPlaylistFavorites(playlist)
+          return res.status(200).json(playlist_with_favorites)
+        }
+        getPlaylist()
+      } else {
+        return res.status(404).json({error_message: 'Not Found'})
+      }
+    })
+    .catch((error) => {
+      return res.status(404).json({error_message: 'Not Found'})
+    })
+})
+
 router.get('/', function(req, res) {
   database('playlists').select()
     .then((playlists) => {
