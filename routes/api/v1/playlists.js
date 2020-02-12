@@ -91,5 +91,53 @@ router.post('/:playlistId/favorites/:favoriteId', async function(req, res) {
     })
 })
 
+router.get('/:id/favorites', function(req, res) {
+  database('playlists').where('id', req.params.id).first()
+  .then(playlist => getPlaylistFavorites(playlist))
+  .then((playlist_favorites) => {
+      res.status(200).json(playlist_favorites)
+  })
+  .catch((error) => {
+    return res.status(404).json({error_message: 'Not Found'})
+  })
+})
+
+
+// helper methods
+
+async function getPlaylistFavorites(playlist) {
+  var info = {
+    id: playlist.id,
+    title: playlist.title,
+    songCount: await getSongCount(playlist),
+    songAvgRating: await getAvgRating(playlist),
+    favorites:  await getFavorites(playlist)
+  }
+  return info
+}
+
+async function getFavorites(playlist) {
+  let playlist_favorites = await database('playlist_favorites').where('playlist_id', playlist.id)
+  let favorite_ids = playlist_favorites.map((play_fave) => {
+    return play_fave.favorite_id
+  })
+  let favorites = await database('favorites').whereIn('id', favorite_ids).select(['id', 'title', 'artistName', 'genre', 'rating'])
+  return favorites
+}
+
+async function getSongCount(playlist) {
+  let playlist_favorites = await database('playlist_favorites').where('playlist_id', playlist.id)
+  return playlist_favorites.length
+}
+
+async function getAvgRating(playlist) {
+  let playlist_favorites = await database('playlist_favorites').where('playlist_id', playlist.id)
+  let favorite_ids = playlist_favorites.map((playlist_favorite) => {
+    return playlist_favorite.favorite_id
+  })
+  let avgRating = await database('favorites').whereIn('id', favorite_ids).avg('rating')
+  let formatRating = parseFloat(parseFloat(avgRating[0].avg).toFixed(2))
+  return formatRating
+}
 
 module.exports = router;
