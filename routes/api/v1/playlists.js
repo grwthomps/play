@@ -42,13 +42,19 @@ router.put('/:id', function(req,res) {
   })
 })
 
-
-
 router.get('/', function(req, res) {
-  database('playlists')
-    .select(['id', 'title', `created_at as createdAt`, `updated_at as updatedAt`]).orderBy('id')
+  database('playlists').select()
     .then((playlists) => {
-      res.status(200).json(playlists)
+      async function getAllPlaylistsWithFavorites() {
+        var playlists_with_favorites = await playlists.map((playlist) => {
+          return  getPlaylistFavorites(playlist)
+        })
+        Promise.all(playlists_with_favorites)
+        .then((all) => {
+          res.status(200).json(all)
+        })
+      }
+      getAllPlaylistsWithFavorites()
     })
     .catch(error => res.status(503).json({error: error.message}))
 })
@@ -129,7 +135,9 @@ async function getPlaylistFavorites(playlist) {
     title: playlist.title,
     songCount: await getSongCount(playlist),
     songAvgRating: await getAvgRating(playlist),
-    favorites:  await getFavorites(playlist)
+    favorites:  await getFavorites(playlist),
+    createdAt: playlist.created_at,
+    updatedAt: playlist.updated_at
   }
   return info
 }
