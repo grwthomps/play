@@ -120,7 +120,7 @@ router.post('/:playlistId/favorites/:favoriteId', async function(req, res) {
 })
 
 router.get('/:id/favorites', function(req, res) {
-  database('playlists').where('id', req.params.id).first()
+  database('playlists').where('id', req.params.id).orderBy('id').first()
   .then(playlist => getPlaylistFavorites(playlist))
   .then((playlist_favorites) => {
       res.status(200).json(playlist_favorites)
