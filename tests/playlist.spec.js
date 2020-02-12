@@ -116,6 +116,41 @@ describe('Test get playlists endpoint', () => {
 
       expect(res.status).toBe(200)
   });
+  test('User can get a single playlist with its favorites', async () => {
+    const res = await request(app)
+      .get('/api/v1/playlists/238')
+
+      expect(res.body).toHaveProperty('id')
+      expect(res.body).toHaveProperty('title')
+      expect(res.body).toHaveProperty('songCount')
+      expect(res.body).toHaveProperty('songAvgRating')
+      expect(res.body).toHaveProperty('favorites')
+      expect(res.body).toHaveProperty('createdAt')
+      expect(res.body).toHaveProperty('updatedAt')
+      expect(res.body).toHaveProperty('favorites')
+      expect(res.body.favorites.length).toBe(2)
+
+      expect(res.body.favorites[0].title).toBe('Alive')
+      expect(res.body.favorites[1].title).toBe('Time')
+
+      expect(res.status).toBe(200)
+  });
+  test('User cannot get a single playlist with invalid id', async () => {
+    const res = await request(app)
+      .get('/api/v1/playlists/564523')
+
+      expect(res.body.error_message).toBe('Not Found')
+
+      expect(res.status).toBe(404)
+  });
+  test('User cannot get a single playlist with invalid letter id', async () => {
+    const res = await request(app)
+      .get('/api/v1/playlists/ejgnetg')
+
+      expect(res.body.error_message).toBe('Not Found')
+
+      expect(res.status).toBe(404)
+  });
 
   test('User can delete a playlist', async () => {
     const res = await request(app)
