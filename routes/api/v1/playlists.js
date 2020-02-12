@@ -121,7 +121,7 @@ async function getFavorites(playlist) {
   let favorite_ids = playlist_favorites.map((play_fave) => {
     return play_fave.favorite_id
   })
-  let favorites = await database('favorites').whereIn('id', favorite_ids).select(['id', 'title', 'artistName', 'genre', 'rating'])
+  let favorites = await database('favorites').whereIn('id', favorite_ids).select(['id', 'title', 'artistName', 'genre', 'rating']).orderBy('id')
   return favorites
 }
 
