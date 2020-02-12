@@ -61,7 +61,7 @@ router.get('/:id', function(req, res) {
 })
 
 router.get('/', function(req, res) {
-  database('playlists').select()
+  database('playlists').orderBy('id').select()
     .then((playlists) => {
       async function getAllPlaylistsWithFavorites() {
         var playlists_with_favorites = await playlists.map((playlist) => {
