@@ -42,6 +42,10 @@ To run locally, use `npm start` from the root directory. Requests can then be ma
 
 Testing is performed with Jest. The included `package.json` file has a script for `npm test` that runs the following command: `jest --config ./jest.config.js --forceExit --coverage --runInBand`. This script can be changed in the `package.json` file in the root directory.
 
+## Production URL
+
+`https://playplay123.herokuapp.com/`
+
 ## Endpoints
 
 ### Favorites
@@ -272,17 +276,17 @@ Status: 404
 ### Playlist Favorites
 
 #### Create a playlist favorite
-Request: 
+Request:
 ```
 POST /api/v1/playlists/:id/favorites/:id
 ```
-Response: 
+Response:
 ```
 Status: 201
 ```
-Invalid Response: 
+Invalid Response:
 ```
-Status: 404 
+Status: 404
 
 error_message: 'Not Found'
 
@@ -294,11 +298,11 @@ error_message: 'Unable to add favorite to playlist'
 ```
 
 #### Return single playlist favorites
-Request: 
+Request:
 ```
 GET /api/v1/playlists/:id/favorites
 ```
-Sample Response: 
+Sample Response:
 ```
 {
   "id": 1,
@@ -325,23 +329,23 @@ Sample Response:
     "updatedAt": 2019-11-26T16:03:43+00:00
 }
 ```
-Invalid Response: 
+Invalid Response:
 ```
-Status: 404 
+Status: 404
 
 error_message: 'Not Found'
 ```
 
-#### Delete playlist favorite 
-Request: 
+#### Delete playlist favorite
+Request:
 ```
 DELETE /api/v1/playlists/:id/favorites/:id
 ```
-Response: 
+Response:
 ```
 Status: 204
 ```
-Invalid Response: 
+Invalid Response:
 ```
 Status: 404
 
