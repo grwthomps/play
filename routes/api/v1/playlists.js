@@ -87,7 +87,11 @@ router.post('/:playlistId/favorites/:favoriteId', async function(req, res) {
       res.status(201).json({Success: `${song.title} has been added to ${playlist.title}!`})
     })
     .catch((error) => {
-      res.status(400).json({error_message: error.message})
+      if (error.message.includes('duplicate key value violates unique constraint')) {
+        res.status(400).json({error_message: 'Favorite cannot be added to playlist twice'})
+      } else {
+        res.status(503).json({error_messag: error.message })
+      }
     })
 })
 
