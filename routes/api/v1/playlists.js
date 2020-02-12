@@ -106,6 +106,20 @@ router.get('/:id/favorites', function(req, res) {
   })
 })
 
+router.delete('/:playlistId/favorites/:favoriteId', function(req, res) {
+  database('playlist_favorites').where({favorite_id: req.params.favoriteId, playlist_id: req.params.playlistId}).del()
+  .then((result) => {
+    if (result === 1) {
+      res.status(204).send();
+    } else {
+      res.status(404).json({error_message: 'Not Found'})
+    }
+  })
+  .catch((error) => {
+    res.status(404).json({error_message: 'Not Found'})
+  })
+})
+
 
 // helper methods
 

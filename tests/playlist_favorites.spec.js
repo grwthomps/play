@@ -111,9 +111,62 @@ describe('Test get a playlist favorites endpoint', () => {
       expect(res.body.favorites[0].title).toBe('Let it Go')
       expect(res.body.favorites[1].title).toBe('Hakuna Matata')
   });
-  test('User canot get a playlist favorites with invalid id', async () => {
+  test('User cannot get a playlist favorites with invalid id', async () => {
     const res = await request(app)
       .get('/api/v1/playlists/959836/favorites')
+
+      expect(res.status).toBe(404)
+      expect(res.body.error_message).toBe('Not Found')
+  });
+})
+describe('Test delete a playlist favorites endpoint', () => {
+  beforeEach(async () => {
+    await database.raw('truncate table playlist_favorites cascade');
+    await database.raw('truncate table playlists cascade');
+    await database.raw('truncate table favorites cascade');
+
+    let playlist = {id: 3756, title: 'Fun Time Jamz'}
+    let favorite1 = {id: 6523, title: 'Hakuna Matata', artistName: 'Timon & Pumba', rating: 100, genre: 'Soundtrack'}
+    let favorite2 = {id: 4723, title: 'Let it Go', artistName: 'Elsa', rating: 20, genre: 'Soundtrack'}
+    let playlist_favorite1 = {playlist_id: 3756, favorite_id: 6523}
+    let playlist_favorite2 = {playlist_id: 3756, favorite_id: 4723}
+
+    await database('playlists').insert(playlist)
+    await database('favorites').insert(favorite1)
+    await database('favorites').insert(favorite2)
+    await database('playlist_favorites').insert(playlist_favorite1)
+    await database('playlist_favorites').insert(playlist_favorite2)
+  });
+
+  afterEach(() => {
+    database.raw('truncate table playlist_favorites cascade');
+    database.raw('truncate table playlists cascade');
+    database.raw('truncate table favorites cascade');
+  });
+
+  test('User can delete a playlist favorite', async () => {
+    const res = await request(app)
+      .delete('/api/v1/playlists/3756/favorites/4723')
+
+      expect(res.status).toBe(204)
+  });
+  test('User cannot delete a playlist favorite with invalid ids', async () => {
+    const res = await request(app)
+      .delete('/api/v1/playlists/959836/favorites/456452')
+
+      expect(res.status).toBe(404)
+      expect(res.body.error_message).toBe('Not Found')
+  });
+  test('User cannot delete a playlist favorites with invalid favorite id', async () => {
+    const res = await request(app)
+      .delete('/api/v1/playlists/3756/favorites/rgdht')
+
+      expect(res.status).toBe(404)
+      expect(res.body.error_message).toBe('Not Found')
+  });
+  test('User cannot delete a playlist favorites with invalid playlist id', async () => {
+    const res = await request(app)
+      .delete('/api/v1/playlists/sgrgh/favorites/4723')
 
       expect(res.status).toBe(404)
       expect(res.body.error_message).toBe('Not Found')
