@@ -67,4 +67,29 @@ router.delete('/:id', function(req,res) {
   })
 })
 
+router.post('/:playlistId/favorites/:favoriteId', async function(req, res) {
+  if (isNaN(req.params.favoriteId) || isNaN(req.params.playlistId)) {
+    return res.status(400).json({error_message: "Bad request. Ids must be a number."})
+  }
+
+  song = await database('favorites').where('id', req.params.favoriteId).first()
+  playlist = await database('playlists').where('id', req.params.playlistId).first()
+
+  if (!song) {
+    return res.status(404).json({error_message: 'Favorite not found'})
+  } else if (!playlist) {
+    return res.status(404).json({error_message: 'Playlist not found'})
+  }
+
+  var info = {playlist_id: req.params.playlistId, favorite_id: req.params.favoriteId}
+  database('playlist_favorites').insert(info)
+    .then((playlistFavorite) => {
+      res.status(201).json({Success: `${song.title} has been added to ${playlist.title}!`})
+    })
+    .catch((error) => {
+      res.status(400).json({error_message: error.message})
+    })
+})
+
+
 module.exports = router;
