@@ -179,6 +179,9 @@ async function getAvgRating(playlist) {
   let favorite_ids = playlist_favorites.map((playlist_favorite) => {
     return playlist_favorite.favorite_id
   })
+  if (favorite_ids.length === 0 ) {
+    return 0 
+  }
   let avgRating = await database('favorites').whereIn('id', favorite_ids).avg('rating')
   let formatRating = parseFloat(parseFloat(avgRating[0].avg).toFixed(2))
   return formatRating
